@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import TimerLengthControl from "./TimerLengthControl";
 import ReactFCCtest from "react-fcctest";
 import "./Timer.scss";
-var accurateInterval = require("accurate-interval");
 
 export class Timer extends Component {
   constructor(props) {
@@ -32,7 +31,8 @@ export class Timer extends Component {
 
   //lengthControl for Break Length and Session Length
   lengthControl(stateToChange, sign, currentLength, timerType) {
-    if (this.state.timerType !== timerType) {
+    if (this.state.timerState === "running") return;
+    if (this.state.timerType === timerType) {
       if (sign === "-" && currentLength !== 1) {
         this.setState({ [stateToChange]: currentLength - 1 });
       } else if (sign === "+" && currentLength !== 60) {
@@ -47,7 +47,7 @@ export class Timer extends Component {
       } else if (sign === "+" && currentLength !== 60) {
         this.setState({
           [stateToChange]: currentLength + 1,
-          timer: currentLength * 60 - 60
+          timer: currentLength * 60 + 60
         });
       }
     }
@@ -87,6 +87,7 @@ export class Timer extends Component {
     this.intervalID = setInterval(() => {
       this.countDown();
       this.phaseControl();
+      console.log(this.seperateMinutesAndSeconds());
     }, 1000);
   }
 
