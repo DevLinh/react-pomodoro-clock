@@ -1,5 +1,7 @@
 body {
   font-size: 30px;
   text-align: center;
-  font-family: "Righteous";
+  font-family: fantasy;
+  display: flex;
+  justify-content: center;
 }
